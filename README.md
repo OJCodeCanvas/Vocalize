@@ -1,5 +1,4 @@
-# Vocalize
-Free, browser-based speech-to-text transcription. No sign-ups, no API keys, no limits.
+
 
 # Vocalize — Free Speech to Text
 
@@ -113,4 +112,3 @@ If you need to transcribe audio files directly (not through mic), check out thes
 ## License
 
 MIT — use it, modify it, share it. No restrictions.
-```
