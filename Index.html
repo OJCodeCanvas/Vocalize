@@ -31,200 +31,128 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: 'Space Grotesk', sans-serif;
-    background: var(--bg);
-    color: var(--fg);
-    min-height: 100vh;
-    overflow-x: hidden;
+    background: var(--bg); color: var(--fg);
+    min-height: 100vh; overflow-x: hidden;
   }
-  .ambient {
-    position: fixed; inset: 0; z-index: 0;
-    pointer-events: none; overflow: hidden;
-  }
+  .ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
   .ambient .blob {
-    position: absolute; border-radius: 50%;
-    filter: blur(120px); opacity: 0.3;
+    position: absolute; border-radius: 50%; filter: blur(120px);
     animation: float 20s ease-in-out infinite alternate;
   }
-  .ambient .blob:nth-child(1) {
-    width: 500px; height: 500px; background: var(--accent);
-    top: -15%; left: -10%; opacity: 0.08;
-  }
-  .ambient .blob:nth-child(2) {
-    width: 400px; height: 400px; background: #e84545;
-    bottom: -10%; right: -5%; opacity: 0.05; animation-delay: -7s;
-  }
-  .ambient .blob:nth-child(3) {
-    width: 300px; height: 300px; background: #3dd68c;
-    top: 50%; left: 50%; opacity: 0.04; animation-delay: -14s;
-  }
+  .ambient .blob:nth-child(1) { width: 500px; height: 500px; background: var(--accent); top: -15%; left: -10%; opacity: 0.08; }
+  .ambient .blob:nth-child(2) { width: 400px; height: 400px; background: #e84545; bottom: -10%; right: -5%; opacity: 0.05; animation-delay: -7s; }
+  .ambient .blob:nth-child(3) { width: 300px; height: 300px; background: #3dd68c; top: 50%; left: 50%; opacity: 0.04; animation-delay: -14s; }
   @keyframes float {
     0% { transform: translate(0,0) scale(1); }
     50% { transform: translate(30px,-20px) scale(1.1); }
     100% { transform: translate(-20px,30px) scale(0.95); }
   }
   .noise {
-    position: fixed; inset: 0; z-index: 1;
-    pointer-events: none; opacity: 0.025;
+    position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.025;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-size: 128px 128px;
   }
-  .app {
-    position: relative; z-index: 2;
-    max-width: 900px; margin: 0 auto;
-    padding: 24px 20px 60px;
-  }
+  .app { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
 
-  /* Header */
-  header {
-    display: flex; align-items: center;
-    justify-content: space-between;
-    padding: 16px 0 28px;
-  }
+  header { display: flex; align-items: center; justify-content: space-between; padding: 16px 0 28px; }
   .logo { display: flex; align-items: center; gap: 12px; }
   .logo-icon {
-    width: 42px; height: 42px; background: var(--accent);
-    border-radius: 10px; display: flex; align-items: center;
-    justify-content: center; font-size: 20px; color: var(--bg);
-    box-shadow: 0 4px 20px var(--accent-glow);
+    width: 42px; height: 42px; background: var(--accent); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; color: var(--bg); box-shadow: 0 4px 20px var(--accent-glow);
   }
   .logo-text { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
   .logo-text span { color: var(--accent); }
-  .badge {
-    font-size: 11px; font-weight: 600; padding: 4px 10px;
-    border-radius: 20px; background: var(--accent-dim);
-    color: var(--accent); letter-spacing: 0.5px; text-transform: uppercase;
-  }
+  .badge { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; background: var(--accent-dim); color: var(--accent); letter-spacing: 0.5px; text-transform: uppercase; }
 
-  /* Name & Description block */
   .hero { margin-bottom: 28px; }
-  .hero h1 {
-    font-size: 32px; font-weight: 800;
-    letter-spacing: -1px; line-height: 1.15;
-    margin-bottom: 10px;
-  }
+  .hero h1 { font-size: 32px; font-weight: 800; letter-spacing: -1px; line-height: 1.15; margin-bottom: 10px; }
   .hero h1 span { color: var(--accent); }
-  .hero p {
-    font-size: 15px; color: var(--fg-muted);
-    line-height: 1.65; max-width: 620px;
-  }
+  .hero p { font-size: 15px; color: var(--fg-muted); line-height: 1.65; max-width: 620px; }
 
   /* Status bar */
   .status-bar {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 16px; background: var(--card);
-    border: 1px solid var(--border); border-radius: var(--radius);
-    margin-bottom: 16px; font-size: 13px; color: var(--fg-muted);
-    flex-wrap: wrap;
+    display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); margin-bottom: 12px;
+    font-size: 13px; color: var(--fg-muted); flex-wrap: wrap;
   }
-  .status-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--fg-muted); flex-shrink: 0; transition: background 0.3s;
-  }
-  .status-dot.active {
-    background: var(--danger);
-    box-shadow: 0 0 8px rgba(232,69,69,0.6);
-    animation: pulse-dot 1.2s ease-in-out infinite;
-  }
-  @keyframes pulse-dot {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.3); }
-  }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--fg-muted); flex-shrink: 0; transition: background 0.3s; }
+  .status-dot.active { background: var(--danger); box-shadow: 0 0 8px rgba(232,69,69,0.6); animation: pulse-dot 1.2s ease-in-out infinite; }
+  @keyframes pulse-dot { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.3); } }
   .status-bar .sep { width: 1px; height: 16px; background: var(--border); }
-  .status-bar .timer {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px; color: var(--fg); min-width: 60px;
-  }
+  .status-bar .timer { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--fg); min-width: 60px; }
   .status-bar .word-count { margin-left: auto; }
 
-  /* Controls */
-  .controls {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 16px; flex-wrap: wrap;
+  /* Silence indicator */
+  .silence-bar {
+    display: none; align-items: center; gap: 10px; padding: 10px 16px;
+    background: var(--warn-dim); border: 1px solid rgba(245,158,11,0.25);
+    border-radius: var(--radius-sm); margin-bottom: 12px;
+    font-size: 13px; color: var(--warn);
   }
+  .silence-bar.visible { display: flex; }
+  .silence-bar .silence-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--warn);
+    animation: pulse-dot 1s ease-in-out infinite;
+  }
+
+  /* Controls */
+  .controls { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
   .lang-select {
-    padding: 10px 14px; background: var(--card);
-    border: 1px solid var(--border); border-radius: var(--radius-sm);
-    color: var(--fg); font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px; cursor: pointer; outline: none;
-    transition: border-color 0.2s; min-width: 180px;
+    padding: 10px 14px; background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); color: var(--fg);
+    font-family: 'Space Grotesk', sans-serif; font-size: 13px;
+    cursor: pointer; outline: none; transition: border-color 0.2s; min-width: 180px;
   }
   .lang-select:focus { border-color: var(--accent); }
   .lang-select option { background: var(--card); color: var(--fg); }
-
-  .toggle-wrap {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 13px; color: var(--fg-muted);
-    cursor: pointer; user-select: none;
-  }
-  .toggle {
-    width: 38px; height: 20px; background: var(--border);
-    border-radius: 20px; position: relative; transition: background 0.25s;
-  }
-  .toggle::after {
-    content: ''; position: absolute; width: 16px; height: 16px;
-    background: var(--fg); border-radius: 50%;
-    top: 2px; left: 2px; transition: transform 0.25s;
-  }
+  .toggle-wrap { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--fg-muted); cursor: pointer; user-select: none; }
+  .toggle { width: 38px; height: 20px; background: var(--border); border-radius: 20px; position: relative; transition: background 0.25s; }
+  .toggle::after { content: ''; position: absolute; width: 16px; height: 16px; background: var(--fg); border-radius: 50%; top: 2px; left: 2px; transition: transform 0.25s; }
   .toggle.on { background: var(--accent); }
   .toggle.on::after { transform: translateX(18px); }
 
   .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 18px; border: 1px solid var(--border);
-    border-radius: var(--radius-sm); background: var(--card);
-    color: var(--fg); font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px; font-weight: 500; cursor: pointer;
-    transition: all 0.2s; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px;
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--card); color: var(--fg);
+    font-family: 'Space Grotesk', sans-serif; font-size: 13px;
+    font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap;
   }
   .btn:hover { background: var(--card-hover); border-color: #3a3b44; }
   .btn:active { transform: scale(0.97); }
   .btn i { font-size: 14px; }
-  .btn-accent {
-    background: var(--accent); color: var(--bg);
-    border-color: var(--accent); font-weight: 600;
-  }
-  .btn-accent:hover {
-    background: #d99a28; border-color: #d99a28;
-    box-shadow: 0 4px 20px var(--accent-glow);
-  }
-  .btn-danger {
-    background: var(--danger-dim); color: var(--danger);
-    border-color: rgba(232,69,69,0.25);
-  }
+  .btn-accent { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+  .btn-accent:hover { background: #d99a28; border-color: #d99a28; box-shadow: 0 4px 20px var(--accent-glow); }
+  .btn-danger { background: var(--danger-dim); color: var(--danger); border-color: rgba(232,69,69,0.25); }
   .btn-danger:hover { background: rgba(232,69,69,0.2); border-color: rgba(232,69,69,0.4); }
-  .btn-success {
-    background: var(--success-dim); color: var(--success);
-    border-color: rgba(61,214,140,0.25);
-  }
+  .btn-success { background: var(--success-dim); color: var(--success); border-color: rgba(61,214,140,0.25); }
   .btn-success:hover { background: rgba(61,214,140,0.2); border-color: rgba(61,214,140,0.4); }
-  .btn-warn {
-    background: var(--warn-dim); color: var(--warn);
-    border-color: rgba(245,158,11,0.25);
-  }
-  .btn-warn:hover { background: rgba(245,158,11,0.2); border-color: rgba(245,158,11,0.4); }
+  .btn-warn { background: var(--warn-dim); color: var(--warn); border-color: rgba(245,158,11,0.3); }
+  .btn-warn:hover { background: rgba(245,158,11,0.2); border-color: rgba(245,158,11,0.5); }
 
-  .btn-record {
-    width: 100%; padding: 18px; font-size: 16px;
-    font-weight: 600; border-radius: var(--radius);
-    justify-content: center; transition: all 0.3s;
-  }
-  .btn-record.recording {
-    background: var(--danger-dim); color: var(--danger);
-    border-color: rgba(232,69,69,0.35);
-    animation: record-pulse 2s ease-in-out infinite;
-  }
-  @keyframes record-pulse {
-    0%,100% { box-shadow: 0 0 0 0 rgba(232,69,69,0); }
-    50% { box-shadow: 0 0 0 8px rgba(232,69,69,0.1); }
-  }
+  .btn-record { width: 100%; padding: 18px; font-size: 16px; font-weight: 600; border-radius: var(--radius); justify-content: center; transition: all 0.3s; }
+  .btn-record.recording { background: var(--danger-dim); color: var(--danger); border-color: rgba(232,69,69,0.35); animation: record-pulse 2s ease-in-out infinite; }
+  @keyframes record-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(232,69,69,0); } 50% { box-shadow: 0 0 0 8px rgba(232,69,69,0.1); } }
+  .btn-continue { width: 100%; padding: 16px; font-size: 15px; font-weight: 600; border-radius: var(--radius); justify-content: center; }
   .spacer { flex: 1; }
+
+  /* Session counter pill */
+  .session-pill {
+    display: none; align-items: center; gap: 6px; padding: 6px 14px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; font-size: 12px; color: var(--fg-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .session-pill.visible { display: inline-flex; }
+  .session-pill i { color: var(--accent); font-size: 11px; }
 
   /* File upload */
   .file-section { margin-bottom: 16px; }
   .file-drop {
-    padding: 28px; border: 2px dashed var(--border);
-    border-radius: var(--radius); text-align: center;
-    cursor: pointer; transition: all 0.25s; color: var(--fg-muted);
+    padding: 28px; border: 2px dashed var(--border); border-radius: var(--radius);
+    text-align: center; cursor: pointer; transition: all 0.25s; color: var(--fg-muted);
   }
   .file-drop:hover { border-color: var(--accent); background: var(--accent-dim); color: var(--fg); }
   .file-drop.dragover { border-color: var(--accent); background: var(--accent-dim); }
@@ -232,129 +160,87 @@
   .file-drop p { font-size: 13px; }
   .file-drop .sub { font-size: 12px; opacity: 0.6; margin-top: 4px; }
   .file-drop input { display: none; }
-  .file-player {
-    display: none; align-items: center; gap: 12px;
-    padding: 14px 16px; background: var(--card);
-    border: 1px solid var(--border); border-radius: var(--radius);
-  }
+  .file-player { display: none; align-items: center; gap: 12px; padding: 14px 16px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); }
   .file-player.visible { display: flex; }
   .file-player audio { flex: 1; height: 36px; }
-  .file-player .file-name {
-    font-size: 12px; color: var(--fg-muted); max-width: 160px;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
-  .section-label {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
-    color: var(--fg-muted); margin-bottom: 8px; font-weight: 600;
-  }
-  .divider {
-    display: flex; align-items: center; gap: 16px;
-    margin: 20px 0; color: var(--fg-muted); font-size: 12px;
-  }
+  .file-player .file-name { font-size: 12px; color: var(--fg-muted); max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--fg-muted); margin-bottom: 8px; font-weight: 600; }
+  .divider { display: flex; align-items: center; gap: 16px; margin: 20px 0; color: var(--fg-muted); font-size: 12px; }
   .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  /* Waveform — simulated, no mic conflict */
-  .waveform {
-    display: flex; align-items: center; justify-content: center;
-    gap: 3px; height: 44px; padding: 0 16px;
-    opacity: 0; transition: opacity 0.3s;
-  }
+  /* Waveform */
+  .waveform { display: flex; align-items: center; justify-content: center; gap: 3px; height: 44px; padding: 0 16px; opacity: 0; transition: opacity 0.3s; }
   .waveform.active { opacity: 1; }
-  .waveform .bar {
-    width: 3px; height: 4px; background: var(--accent);
-    border-radius: 3px; transition: height 0.08s ease;
-  }
+  .waveform .bar { width: 3px; height: 4px; background: var(--accent); border-radius: 3px; transition: height 0.08s ease; }
 
   /* Transcript */
-  .transcript-wrap {
-    position: relative; background: var(--card);
-    border: 1px solid var(--border); border-radius: var(--radius);
-    overflow: hidden; margin-bottom: 16px; transition: border-color 0.3s;
-  }
+  .transcript-wrap { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; transition: border-color 0.3s; }
   .transcript-wrap:focus-within { border-color: var(--accent); }
   .transcript-wrap.recording { border-color: rgba(232,69,69,0.4); }
-  .transcript-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 16px; border-bottom: 1px solid var(--border);
-    font-size: 12px; color: var(--fg-muted);
-    text-transform: uppercase; letter-spacing: 0.8px;
-  }
+  .transcript-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.8px; }
   .transcript-actions { display: flex; gap: 4px; }
-  .transcript-actions button {
-    background: none; border: none; color: var(--fg-muted);
-    cursor: pointer; padding: 4px 8px; border-radius: 6px;
-    font-size: 13px; transition: all 0.2s;
-  }
+  .transcript-actions button { background: none; border: none; color: var(--fg-muted); cursor: pointer; padding: 4px 8px; border-radius: 6px; font-size: 13px; transition: all 0.2s; }
   .transcript-actions button:hover { background: var(--card-hover); color: var(--fg); }
   #transcript {
-    width: 100%; min-height: 300px; max-height: 55vh;
-    padding: 20px; background: transparent; border: none;
-    color: var(--fg); font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px; line-height: 1.75; resize: vertical;
-    outline: none; overflow-y: auto;
+    width: 100%; min-height: 300px; max-height: 55vh; padding: 20px;
+    background: transparent; border: none; color: var(--fg);
+    font-family: 'Space Grotesk', sans-serif; font-size: 15px;
+    line-height: 1.75; resize: vertical; outline: none; overflow-y: auto;
   }
   #transcript::placeholder { color: var(--fg-muted); opacity: 0.6; }
   #transcript::-webkit-scrollbar { width: 6px; }
   #transcript::-webkit-scrollbar-track { background: transparent; }
   #transcript::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
+  /* Boundary marker */
+  .boundary-marker {
+    display: inline-block; color: var(--accent); opacity: 0.5;
+    font-size: 12px; letter-spacing: 2px; user-select: none;
+    margin: 0 4px; vertical-align: middle;
+  }
+
   /* Troubleshoot banner */
   .troubleshoot-banner {
-    display: none; padding: 16px 18px;
-    background: var(--warn-dim); border: 1px solid rgba(245,158,11,0.3);
-    border-radius: var(--radius-sm); margin-bottom: 16px;
-    font-size: 13px; line-height: 1.6; color: var(--warn);
+    display: none; padding: 16px 18px; background: var(--warn-dim);
+    border: 1px solid rgba(245,158,11,0.3); border-radius: var(--radius-sm);
+    margin-bottom: 16px; font-size: 13px; line-height: 1.6; color: var(--warn);
   }
   .troubleshoot-banner strong { color: var(--fg); }
   .troubleshoot-banner ul { margin: 8px 0 0 18px; }
   .troubleshoot-banner li { margin-bottom: 4px; color: var(--fg-muted); }
 
+  /* Autosave indicator */
+  .autosave-pill {
+    display: none; align-items: center; gap: 6px; padding: 4px 12px;
+    font-size: 11px; color: var(--success);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .autosave-pill.visible { display: inline-flex; }
+  .autosave-pill i { font-size: 10px; }
+
+  /* Unsupported banner */
+  .unsupported { padding: 20px; background: var(--danger-dim); border: 1px solid rgba(232,69,69,0.3); border-radius: var(--radius); color: var(--danger); font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
+  .unsupported a { color: var(--fg); text-decoration: underline; }
+
   /* Bottom actions */
   .bottom-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
   /* Info cards */
-  .info-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 12px; margin-top: 24px;
-  }
-  .info-card {
-    padding: 18px; background: var(--card);
-    border: 1px solid var(--border); border-radius: var(--radius);
-    transition: border-color 0.2s;
-  }
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 24px; }
+  .info-card { padding: 18px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); transition: border-color 0.2s; }
   .info-card:hover { border-color: #3a3b44; }
-  .info-card h3 {
-    font-size: 14px; font-weight: 600; margin-bottom: 8px;
-    display: flex; align-items: center; gap: 8px;
-  }
+  .info-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
   .info-card h3 i { color: var(--accent); font-size: 15px; }
   .info-card p { font-size: 13px; color: var(--fg-muted); line-height: 1.6; }
-  .info-card kbd {
-    display: inline-block; padding: 2px 7px; background: var(--bg2);
-    border: 1px solid var(--border); border-radius: 4px;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--fg);
-  }
-
-  /* Unsupported banner */
-  .unsupported {
-    padding: 20px; background: var(--danger-dim);
-    border: 1px solid rgba(232,69,69,0.3); border-radius: var(--radius);
-    color: var(--danger); font-size: 14px; line-height: 1.6; margin-bottom: 16px;
-  }
-  .unsupported a { color: var(--fg); text-decoration: underline; }
+  .info-card kbd { display: inline-block; padding: 2px 7px; background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--fg); }
 
   /* Toast */
-  .toast-container {
-    position: fixed; bottom: 24px; right: 24px; z-index: 9999;
-    display: flex; flex-direction: column; gap: 8px;
-  }
+  .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
   .toast {
-    padding: 12px 20px; background: var(--card);
-    border: 1px solid var(--border); border-radius: var(--radius-sm);
-    font-size: 13px; color: var(--fg); display: flex;
-    align-items: center; gap: 10px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-    animation: toast-in 0.35s ease-out; max-width: 340px;
+    padding: 12px 20px; background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); font-size: 13px; color: var(--fg);
+    display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4); animation: toast-in 0.35s ease-out; max-width: 340px;
   }
   .toast.success { border-color: rgba(61,214,140,0.4); }
   .toast.success i { color: var(--success); }
@@ -365,13 +251,8 @@
   .toast.warn { border-color: rgba(245,158,11,0.4); }
   .toast.warn i { color: var(--warn); }
   .toast.out { animation: toast-out 0.3s ease-in forwards; }
-  @keyframes toast-in {
-    from { opacity: 0; transform: translateY(12px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  @keyframes toast-out {
-    to { opacity: 0; transform: translateY(-8px) scale(0.95); }
-  }
+  @keyframes toast-in { from { opacity: 0; transform: translateY(12px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes toast-out { to { opacity: 0; transform: translateY(-8px) scale(0.95); } }
 
   @media (max-width: 640px) {
     .app { padding: 16px 14px 40px; }
@@ -386,20 +267,13 @@
     .toast { max-width: 100%; }
   }
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.01ms !important;
-    }
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   }
 </style>
 </head>
 <body>
 
-<div class="ambient">
-  <div class="blob"></div>
-  <div class="blob"></div>
-  <div class="blob"></div>
-</div>
+<div class="ambient"><div class="blob"></div><div class="blob"></div><div class="blob"></div></div>
 <div class="noise"></div>
 
 <div class="app">
@@ -408,10 +282,12 @@
       <div class="logo-icon"><i class="fa-solid fa-microphone-lines"></i></div>
       <div class="logo-text">Vocal<span>ize</span></div>
     </div>
-    <div class="badge">100% Free</div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="autosave-pill" id="autosavePill"><i class="fa-solid fa-cloud-arrow-up"></i> Auto-saved</div>
+      <div class="badge">100% Free</div>
+    </div>
   </header>
 
-  <!-- Name & Description -->
   <section class="hero">
     <h1>Speech to Text, <span>Zero Cost</span></h1>
     <p>Vocalize transcribes your voice or audio recordings into text instantly — right inside your browser. No sign-ups, no API keys, no servers. Fully editable output you can copy-paste anywhere or download as .txt / .srt.</p>
@@ -422,7 +298,6 @@
     <a href="https://www.google.com/chrome/" target="_blank">Get Chrome</a>
   </div>
 
-  <!-- Troubleshoot banner (shown on zero-segment stop) -->
   <div class="troubleshoot-banner" id="troubleshootBanner">
     <strong><i class="fa-solid fa-triangle-exclamation"></i> No speech was detected.</strong> This usually means:
     <ul>
@@ -440,7 +315,17 @@
     <span id="statusText">Ready to transcribe</span>
     <div class="sep"></div>
     <span class="timer" id="timer">00:00</span>
+    <div class="session-pill" id="sessionPill">
+      <i class="fa-solid fa-rotate"></i>
+      <span id="sessionCount">0 restarts</span>
+    </div>
     <span class="word-count" id="wordCount">0 words</span>
+  </div>
+
+  <!-- Silence indicator -->
+  <div class="silence-bar" id="silenceBar">
+    <div class="silence-dot"></div>
+    <span>Still listening — no speech detected for a while. Keep talking or it may auto-restart.</span>
   </div>
 
   <!-- Controls -->
@@ -476,12 +361,10 @@
       <option value="uk-UA">Ukrainian</option>
     </select>
     <label class="toggle-wrap" id="continuousToggle" tabindex="0" role="switch" aria-checked="true">
-      <div class="toggle on" id="continuousSwitch"></div>
-      Continuous
+      <div class="toggle on" id="continuousSwitch"></div> Continuous
     </label>
     <label class="toggle-wrap" id="timestampToggle" tabindex="0" role="switch" aria-checked="false">
-      <div class="toggle" id="timestampSwitch"></div>
-      Timestamps
+      <div class="toggle" id="timestampSwitch"></div> Timestamps
     </label>
   </div>
 
@@ -509,7 +392,13 @@
     <span>Start Recording</span>
   </button>
 
-  <!-- Simulated waveform (NO getUserMedia — avoids mic conflict) -->
+  <!-- Continue button (shown when restart cap is hit) -->
+  <button class="btn btn-warn btn-continue" id="continueBtn" style="display:none;margin-top:12px;">
+    <i class="fa-solid fa-forward"></i>
+    <span>Continue Recording</span>
+  </button>
+
+  <!-- Waveform -->
   <div class="waveform" id="waveform"></div>
 
   <!-- Transcript -->
@@ -537,7 +426,6 @@
     <button class="btn btn-danger" onclick="clearText()"><i class="fa-solid fa-trash-can"></i> Clear</button>
   </div>
 
-  <!-- Info cards -->
   <div class="info-grid">
     <div class="info-card">
       <h3><i class="fa-solid fa-bolt"></i> How it works</h3>
@@ -545,11 +433,15 @@
     </div>
     <div class="info-card">
       <h3><i class="fa-solid fa-keyboard"></i> Keyboard shortcut</h3>
-      <p>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd> to toggle recording on/off. Works even when the page is in background.</p>
+      <p>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd> to toggle recording on/off.</p>
     </div>
     <div class="info-card">
-      <h3><i class="fa-solid fa-pen-to-square"></i> Editable output</h3>
-      <p>The transcript is a regular text area — click anywhere to edit, correct mistakes, or add notes before copying or downloading.</p>
+      <h3><i class="fa-solid fa-rotate"></i> Auto-restart</h3>
+      <p>Chrome stops recognition every ~5-10 min. Vocalize auto-restarts and marks boundaries with <span style="color:var(--accent)">· · ·</span> so you can see where words might be missing.</p>
+    </div>
+    <div class="info-card">
+      <h3><i class="fa-solid fa-floppy-disk"></i> Auto-save</h3>
+      <p>Your transcript is saved to browser storage every 5 seconds. If you close the tab by accident, it's restored next time you open the page.</p>
     </div>
   </div>
 </div>
@@ -557,21 +449,35 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-  // ── State ──
+  // ════════════════════════════════════════
+  // STATE
+  // ════════════════════════════════════════
   let isRecording = false;
+  let isPaused = false;        // true when restart cap is hit
   let recognition = null;
   let continuous = true;
   let showTimestamps = false;
   let timerInterval = null;
   let seconds = 0;
-  let segments = [];       // { time, text } for SRT export
+  let totalSeconds = 0;        // keeps ticking even across restarts
+  let segments = [];           // { time, text, boundary } for SRT export
+  let boundaries = [];         // indices into segments where restarts happened
   let segmentStart = 0;
-  let restartCount = 0;    // track auto-restarts
-  const MAX_RESTARTS = 50; // safety cap
+  let restartCount = 0;
+  const MAX_RESTARTS = 60;
   let waveAnimFrame = null;
+  let lastSpeechTime = 0;      // timestamp of last onresult
+  let silenceTimeout = null;
+  let autosaveInterval = null;
+  const SILENCE_THRESHOLD = 4000; // ms before showing warning
+  const BOUNDARY_MARKER = ' · · · ';
+  const AUTOSAVE_KEY = 'vocalize_autosave';
 
-  // ── DOM ──
+  // ════════════════════════════════════════
+  // DOM
+  // ════════════════════════════════════════
   const recordBtn = document.getElementById('recordBtn');
+  const continueBtn = document.getElementById('continueBtn');
   const statusDot = document.getElementById('statusDot');
   const statusText = document.getElementById('statusText');
   const timerEl = document.getElementById('timer');
@@ -585,6 +491,10 @@
   const timestampToggle = document.getElementById('timestampToggle');
   const timestampSwitch = document.getElementById('timestampSwitch');
   const troubleshootBanner = document.getElementById('troubleshootBanner');
+  const silenceBar = document.getElementById('silenceBar');
+  const sessionPill = document.getElementById('sessionPill');
+  const sessionCountEl = document.getElementById('sessionCount');
+  const autosavePill = document.getElementById('autosavePill');
   const fileDrop = document.getElementById('fileDrop');
   const fileInput = document.getElementById('fileInput');
   const filePlayer = document.getElementById('filePlayer');
@@ -592,7 +502,9 @@
   const fileNameEl = document.getElementById('fileName');
   const removeFileBtn = document.getElementById('removeFile');
 
-  // ── Support check ──
+  // ════════════════════════════════════════
+  // SUPPORT CHECK
+  // ════════════════════════════════════════
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
     document.getElementById('unsupportedBanner').style.display = 'block';
@@ -601,7 +513,9 @@
     recordBtn.style.cursor = 'not-allowed';
   }
 
-  // ── Simulated waveform bars (NO getUserMedia!) ──
+  // ════════════════════════════════════════
+  // SIMULATED WAVEFORM (no getUserMedia)
+  // ════════════════════════════════════════
   const barCount = 45;
   for (let i = 0; i < barCount; i++) {
     const bar = document.createElement('div');
@@ -610,64 +524,43 @@
   }
   const bars = waveformEl.querySelectorAll('.bar');
 
-  // Simulated reactive waveform — no mic stream needed
   function animateWaveform() {
     const t = performance.now() / 1000;
     bars.forEach((bar, i) => {
-      // Create organic-looking wave with multiple sine layers
       const center = barCount / 2;
-      const dist = Math.abs(i - center) / center; // 0 at center, 1 at edges
+      const dist = Math.abs(i - center) / center;
       const base = Math.sin(t * 3.5 + i * 0.35) * 0.5 + 0.5;
       const wave2 = Math.sin(t * 5.2 + i * 0.6) * 0.3 + 0.5;
       const wave3 = Math.sin(t * 8.1 + i * 1.1) * 0.15 + 0.5;
       const combined = base * 0.5 + wave2 * 0.3 + wave3 * 0.2;
-      // Taper at edges, boost at center
       const shape = 1 - dist * 0.6;
       const h = Math.max(3, combined * shape * 34 + Math.random() * 3);
       bar.style.height = h + 'px';
     });
     waveAnimFrame = requestAnimationFrame(animateWaveform);
   }
-  function startWaveform() {
-    waveformEl.classList.add('active');
-    animateWaveform();
-  }
-  function stopWaveform() {
-    waveformEl.classList.remove('active');
-    cancelAnimationFrame(waveAnimFrame);
-    bars.forEach(bar => bar.style.height = '4px');
-  }
+  function startWaveform() { waveformEl.classList.add('active'); animateWaveform(); }
+  function stopWaveform() { waveformEl.classList.remove('active'); cancelAnimationFrame(waveAnimFrame); bars.forEach(bar => bar.style.height = '4px'); }
 
-  // ── Toggles ──
+  // ════════════════════════════════════════
+  // TOGGLES
+  // ════════════════════════════════════════
   function setupToggle(wrap, sw, callback) {
-    wrap.addEventListener('click', () => {
-      const isOn = sw.classList.toggle('on');
-      wrap.setAttribute('aria-checked', isOn);
-      callback(isOn);
-    });
-    wrap.addEventListener('keydown', (e) => {
-      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); wrap.click(); }
-    });
+    wrap.addEventListener('click', () => { const isOn = sw.classList.toggle('on'); wrap.setAttribute('aria-checked', isOn); callback(isOn); });
+    wrap.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); wrap.click(); } });
   }
   setupToggle(continuousToggle, continuousSwitch, (v) => { continuous = v; });
   setupToggle(timestampToggle, timestampSwitch, (v) => { showTimestamps = v; rebuildDisplay(); });
 
-  // ── File upload ──
+  // ════════════════════════════════════════
+  // FILE UPLOAD
+  // ════════════════════════════════════════
   fileDrop.addEventListener('click', () => fileInput.click());
   fileDrop.addEventListener('dragover', (e) => { e.preventDefault(); fileDrop.classList.add('dragover'); });
   fileDrop.addEventListener('dragleave', () => fileDrop.classList.remove('dragover'));
-  fileDrop.addEventListener('drop', (e) => {
-    e.preventDefault(); fileDrop.classList.remove('dragover');
-    if (e.dataTransfer.files.length) loadAudioFile(e.dataTransfer.files[0]);
-  });
-  fileInput.addEventListener('change', () => {
-    if (fileInput.files.length) loadAudioFile(fileInput.files[0]);
-  });
-  removeFileBtn.addEventListener('click', () => {
-    audioPlayer.pause(); audioPlayer.src = '';
-    filePlayer.classList.remove('visible');
-    fileDrop.style.display = '';
-  });
+  fileDrop.addEventListener('drop', (e) => { e.preventDefault(); fileDrop.classList.remove('dragover'); if (e.dataTransfer.files.length) loadAudioFile(e.dataTransfer.files[0]); });
+  fileInput.addEventListener('change', () => { if (fileInput.files.length) loadAudioFile(fileInput.files[0]); });
+  removeFileBtn.addEventListener('click', () => { audioPlayer.pause(); audioPlayer.src = ''; filePlayer.classList.remove('visible'); fileDrop.style.display = ''; });
   function loadAudioFile(file) {
     if (!file.type.startsWith('audio/')) { showToast('Please select an audio file.', 'error'); return; }
     audioPlayer.src = URL.createObjectURL(file);
@@ -677,7 +570,9 @@
     showToast('Audio loaded. Hit record, then play the audio.', 'info');
   }
 
-  // ── Toast ──
+  // ════════════════════════════════════════
+  // TOAST
+  // ════════════════════════════════════════
   function showToast(msg, type = 'info') {
     const container = document.getElementById('toastContainer');
     const toast = document.createElement('div');
@@ -688,10 +583,13 @@
     setTimeout(() => { toast.classList.add('out'); setTimeout(() => toast.remove(), 300); }, 3500);
   }
 
-  // ── Timer ──
+  // ════════════════════════════════════════
+  // TIMER
+  // ════════════════════════════════════════
   function startTimer() {
-    seconds = 0; updateTimerDisplay();
-    timerInterval = setInterval(() => { seconds++; updateTimerDisplay(); }, 1000);
+    seconds = 0;
+    updateTimerDisplay();
+    timerInterval = setInterval(() => { seconds++; totalSeconds++; updateTimerDisplay(); }, 1000);
   }
   function stopTimer() { clearInterval(timerInterval); }
   function updateTimerDisplay() {
@@ -699,15 +597,100 @@
     const s = String(seconds % 60).padStart(2, '0');
     timerEl.textContent = `${m}:${s}`;
   }
+  function formatTotalTime() {
+    const m = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+    const s = String(totalSeconds % 60).padStart(2, '0');
+    return `${m}:${s}`;
+  }
 
-  // ── Word count ──
+  // ════════════════════════════════════════
+  // WORD COUNT
+  // ════════════════════════════════════════
   function updateWordCount() {
     const text = transcriptEl.value.trim();
     const count = text ? text.split(/\s+/).length : 0;
     wordCountEl.textContent = `${count} word${count !== 1 ? 's' : ''}`;
   }
 
-  // ── Timestamp helpers ──
+  // ════════════════════════════════════════
+  // SILENCE DETECTION
+  // ════════════════════════════════════════
+  function resetSilenceTimer() {
+    lastSpeechTime = Date.now();
+    silenceBar.classList.remove('visible');
+    clearTimeout(silenceTimeout);
+    if (isRecording) {
+      silenceTimeout = setTimeout(() => {
+        if (isRecording) silenceBar.classList.add('visible');
+      }, SILENCE_THRESHOLD);
+    }
+  }
+  function clearSilenceTimer() {
+    clearTimeout(silenceTimeout);
+    silenceBar.classList.remove('visible');
+  }
+
+  // ════════════════════════════════════════
+  // SESSION COUNTER
+  // ════════════════════════════════════════
+  function updateSessionPill() {
+    if (restartCount > 0) {
+      sessionPill.classList.add('visible');
+      sessionCountEl.textContent = `${restartCount} restart${restartCount !== 1 ? 's' : ''}`;
+    } else {
+      sessionPill.classList.remove('visible');
+    }
+  }
+
+  // ════════════════════════════════════════
+  // AUTO-SAVE
+  // ════════════════════════════════════════
+  function saveToStorage() {
+    try {
+      const data = { segments, boundaries, totalSeconds, timestamp: Date.now() };
+      localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(data));
+    } catch(e) { /* storage full, ignore */ }
+  }
+  function loadFromStorage() {
+    try {
+      const raw = localStorage.getItem(AUTOSAVE_KEY);
+      if (!raw) return false;
+      const data = JSON.parse(raw);
+      if (!data.segments || !data.segments.length) return false;
+      segments = data.segments;
+      boundaries = data.boundaries || [];
+      totalSeconds = data.totalSeconds || 0;
+      rebuildDisplay();
+      updateWordCount();
+      // Show restore notice
+      const mins = Math.floor(totalSeconds / 60);
+      const secs = totalSeconds % 60;
+      showToast(`Restored previous session — ${segments.length} segments, ${mins}m ${secs}s.`, 'info');
+      return true;
+    } catch(e) { return false; }
+  }
+  function clearStorage() {
+    localStorage.removeItem(AUTOSAVE_KEY);
+  }
+  function flashAutosave() {
+    autosavePill.classList.add('visible');
+    setTimeout(() => autosavePill.classList.remove('visible'), 2000);
+  }
+  function startAutosave() {
+    saveToStorage();
+    autosaveInterval = setInterval(() => {
+      saveToStorage();
+      flashAutosave();
+    }, 5000);
+  }
+  function stopAutosave() {
+    clearInterval(autosaveInterval);
+    saveToStorage(); // final save
+  }
+
+  // ════════════════════════════════════════
+  // TIMESTAMP HELPERS
+  // ════════════════════════════════════════
   function formatTime(sec) {
     const h = String(Math.floor(sec / 3600)).padStart(2, '0');
     const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
@@ -721,29 +704,45 @@
     const ms = String(Math.round((sec % 1) * 1000)).padStart(3, '0');
     return `${h}:${m}:${s},${ms}`;
   }
+
   function rebuildDisplay() {
     if (!showTimestamps) {
-      transcriptEl.value = segments.map(s => s.text).join(' ').trim();
+      // Plain text with boundary markers
+      let text = '';
+      segments.forEach((seg, i) => {
+        if (boundaries.includes(i) && i > 0) text += BOUNDARY_MARKER;
+        text += seg.text + ' ';
+      });
+      transcriptEl.value = text.trim();
     } else {
-      transcriptEl.value = segments.map(s => `[${formatTime(s.time)}] ${s.text}`).join('\n').trim();
+      let text = '';
+      segments.forEach((seg, i) => {
+        if (boundaries.includes(i) && i > 0) text += BOUNDARY_MARKER + '\n';
+        text += `[${formatTime(seg.time)}] ${seg.text}\n`;
+      });
+      transcriptEl.value = text.trim();
     }
     updateWordCount();
   }
 
-  // ── Core: create recognition ──
+  // ════════════════════════════════════════
+  // CORE: CREATE RECOGNITION
+  // ════════════════════════════════════════
   function createRecognition() {
     if (!SpeechRecognition) return null;
     const rec = new SpeechRecognition();
     rec.lang = langSelect.value;
-    rec.continuous = true;   // ALWAYS set continuous=true internally for stability
+    rec.continuous = true;    // always true internally for stability
     rec.interimResults = true;
     rec.maxAlternatives = 1;
 
-    segmentStart = seconds;
+    segmentStart = totalSeconds;
     let gotAnyResult = false;
 
     rec.onresult = (event) => {
       gotAnyResult = true;
+      resetSilenceTimer(); // speech detected, reset silence warning
+
       let interim = '';
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const result = event.results[i];
@@ -751,123 +750,140 @@
           const text = result[0].transcript.trim();
           if (text) {
             segments.push({ time: segmentStart, text });
-            segmentStart = seconds;
+            segmentStart = totalSeconds;
           }
         } else {
           interim += result[0].transcript;
         }
       }
+      // Build display
       if (!showTimestamps) {
-        const base = segments.map(s => s.text).join(' ');
-        transcriptEl.value = interim ? base + ' ' + interim : base;
+        let text = '';
+        segments.forEach((seg, i) => {
+          if (boundaries.includes(i) && i > 0) text += BOUNDARY_MARKER;
+          text += seg.text + ' ';
+        });
+        transcriptEl.value = interim ? text + interim : text.trim();
       } else {
-        const base = segments.map(s => `[${formatTime(s.time)}] ${s.text}`).join('\n');
-        transcriptEl.value = interim ? base + '\n' + `[${formatTime(seconds)}] ${interim}...` : base;
+        let text = '';
+        segments.forEach((seg, i) => {
+          if (boundaries.includes(i) && i > 0) text += BOUNDARY_MARKER + '\n';
+          text += `[${formatTime(seg.time)}] ${seg.text}\n`;
+        });
+        transcriptEl.value = interim ? text + `[${formatTime(totalSeconds)}] ${interim}...` : text.trim();
       }
       updateWordCount();
       transcriptEl.scrollTop = transcriptEl.scrollHeight;
-      // Hide troubleshoot banner once we get results
       troubleshootBanner.style.display = 'none';
     };
 
     rec.onerror = (event) => {
       if (event.error === 'aborted') return;
-      if (event.error === 'no-speech') {
-        // On mobile, "no-speech" fires frequently — just let onend restart
-        return;
-      }
+      if (event.error === 'no-speech') return; // handled by onend restart
       if (event.error === 'not-allowed') {
         showToast('Microphone access denied. Allow mic permission in browser settings.', 'error');
-        stopRecording();
+        forceStop();
       } else if (event.error === 'network') {
         showToast('Network error — speech recognition needs internet on first use.', 'error');
-        stopRecording();
+        forceStop();
       } else if (event.error === 'audio-capture') {
         showToast('No microphone found. Connect a mic and try again.', 'error');
-        stopRecording();
+        forceStop();
       } else {
         showToast(`Recognition error: ${event.error}`, 'error');
       }
     };
 
     rec.onend = () => {
-      if (!isRecording) return;
+      if (!isRecording || isPaused) return;
 
-      // If user toggled continuous OFF and we got results, stop
+      // If user wants non-continuous and we got results, stop cleanly
       if (!continuous && gotAnyResult) {
         stopRecording();
         return;
       }
 
-      // Auto-restart (with safety cap)
+      // Auto-restart with safety cap
       if (restartCount < MAX_RESTARTS) {
         restartCount++;
-        // Small delay before restart to avoid browser throttling
+        updateSessionPill();
+        // Mark boundary for next segment
+        boundaries.push(segments.length);
         setTimeout(() => {
-          if (!isRecording) return;
+          if (!isRecording || isPaused) return;
           try {
             rec.start();
           } catch(e) {
-            // If start fails (already started), recreate
+            // Already started edge case — recreate
             const newRec = createRecognition();
-            if (newRec) {
-              recognition = newRec;
-              try { newRec.start(); } catch(e2) {}
-            }
+            if (newRec) { recognition = newRec; try { newRec.start(); } catch(e2) {} }
           }
-        }, 100);
+        }, 150);
       } else {
-        stopRecording();
+        // Cap hit — show Continue button instead of dying
+        pauseForContinue();
       }
     };
 
-    // Store ref so we can check gotAnyResult externally
-    rec._gotAnyResult = () => gotAnyResult;
     return rec;
   }
 
-  // ── Start / Stop ──
+  // ════════════════════════════════════════
+  // START / STOP / CONTINUE
+  // ════════════════════════════════════════
   function startRecording() {
     if (!SpeechRecognition) return;
-
     troubleshootBanner.style.display = 'none';
-    restartCount = 0;
+    isPaused = false;
 
+    // If resuming after cap, reset restart counter but keep segments
+    if (segments.length > 0 && restartCount >= MAX_RESTARTS) {
+      restartCount = 0;
+    } else if (segments.length === 0) {
+      restartCount = 0;
+      totalSeconds = 0;
+      boundaries = [];
+    }
+
+    updateSessionPill();
     recognition = createRecognition();
     if (!recognition) return;
 
-    try {
-      recognition.start();
-    } catch(e) {
-      showToast('Failed to start recognition. Try refreshing the page.', 'error');
+    try { recognition.start(); } catch(e) {
+      showToast('Failed to start. Try refreshing the page.', 'error');
       return;
     }
 
     isRecording = true;
     startWaveform();
+    resetSilenceTimer();
 
     recordBtn.classList.add('recording');
     recordBtn.innerHTML = '<i class="fa-solid fa-stop"></i><span>Stop Recording</span>';
+    recordBtn.style.display = '';
+    continueBtn.style.display = 'none';
     statusDot.classList.add('active');
     statusText.textContent = 'Listening...';
     transcriptWrap.classList.add('recording');
     startTimer();
+    startAutosave();
     showToast('Recording started — speak now.', 'success');
   }
 
   function stopRecording() {
     isRecording = false;
-
-    if (recognition) {
-      try { recognition.stop(); } catch(e) {}
-      recognition = null;
-    }
-
+    isPaused = false;
+    if (recognition) { try { recognition.stop(); } catch(e) {} recognition = null; }
     stopWaveform();
     stopTimer();
+    clearSilenceTimer();
+    stopAutosave();
+    saveToStorage();
 
     recordBtn.classList.remove('recording');
     recordBtn.innerHTML = '<i class="fa-solid fa-microphone"></i><span>Start Recording</span>';
+    recordBtn.style.display = '';
+    continueBtn.style.display = 'none';
     statusDot.classList.remove('active');
     statusText.textContent = 'Stopped';
     transcriptWrap.classList.remove('recording');
@@ -879,8 +895,47 @@
       showToast('No speech detected. See troubleshooting tips below.', 'warn');
     } else {
       troubleshootBanner.style.display = 'none';
-      showToast(`Done — ${segments.length} segment${segments.length !== 1 ? 's' : ''}, ${wordCountEl.textContent}.`, 'success');
+      const lost = restartCount > 0 ? ` (${restartCount} auto-restart${restartCount !== 1 ? 's' : ''}, check ${BOUNDARY_MARKER.trim()} markers)` : '';
+      showToast(`Done — ${segments.length} segments, ${wordCountEl.textContent}, ${formatTotalTime()} total.${lost}`, 'success');
     }
+  }
+
+  function forceStop() {
+    isRecording = false;
+    isPaused = false;
+    if (recognition) { try { recognition.stop(); } catch(e) {} recognition = null; }
+    stopWaveform();
+    stopTimer();
+    clearSilenceTimer();
+    stopAutosave();
+    saveToStorage();
+
+    recordBtn.classList.remove('recording');
+    recordBtn.innerHTML = '<i class="fa-solid fa-microphone"></i><span>Start Recording</span>';
+    recordBtn.style.display = '';
+    continueBtn.style.display = 'none';
+    statusDot.classList.remove('active');
+    statusText.textContent = 'Error';
+    transcriptWrap.classList.remove('recording');
+    rebuildDisplay();
+  }
+
+  // Pause state when restart cap is hit — show Continue button
+  function pauseForContinue() {
+    isPaused = true;
+    if (recognition) { try { recognition.stop(); } catch(e) {} recognition = null; }
+    clearSilenceTimer();
+    // Don't stop timer or waveform — keeps the "alive" feeling
+    stopAutosave();
+    saveToStorage();
+
+    statusText.textContent = 'Paused — tap Continue to resume';
+    statusDot.classList.remove('active');
+    transcriptWrap.classList.remove('recording');
+
+    recordBtn.style.display = 'none';
+    continueBtn.style.display = '';
+    showToast(`Auto-restart limit reached (${MAX_RESTARTS}). Tap Continue to keep going — your transcript is preserved.`, 'warn');
   }
 
   recordBtn.addEventListener('click', () => {
@@ -888,29 +943,36 @@
     else startRecording();
   });
 
-  // ── Keyboard shortcut ──
+  continueBtn.addEventListener('click', () => {
+    // Resume recording — keeps all existing segments
+    startRecording();
+  });
+
+  // ════════════════════════════════════════
+  // KEYBOARD SHORTCUT
+  // ════════════════════════════════════════
   document.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.shiftKey && (e.key === 'M' || e.key === 'm')) {
       e.preventDefault();
-      if (isRecording) stopRecording();
+      if (isPaused) { continueBtn.click(); }
+      else if (isRecording) stopRecording();
       else startRecording();
     }
   });
 
-  // ── Copy ──
+  // ════════════════════════════════════════
+  // COPY / DOWNLOAD / CLEAR
+  // ════════════════════════════════════════
   function copyText() {
     const text = transcriptEl.value;
     if (!text.trim()) { showToast('Nothing to copy yet.', 'info'); return; }
     navigator.clipboard.writeText(text).then(() => {
       showToast('Copied to clipboard!', 'success');
     }).catch(() => {
-      transcriptEl.select();
-      document.execCommand('copy');
+      transcriptEl.select(); document.execCommand('copy');
       showToast('Copied to clipboard!', 'success');
     });
   }
-
-  // ── Download .txt ──
   function downloadTxt() {
     const text = transcriptEl.value;
     if (!text.trim()) { showToast('Nothing to download.', 'info'); return; }
@@ -921,8 +983,6 @@
     URL.revokeObjectURL(url);
     showToast('Downloaded as .txt', 'success');
   }
-
-  // ── Download .srt ──
   function downloadSrt() {
     if (!segments.length) { showToast('No segments to export.', 'info'); return; }
     let srt = '';
@@ -938,26 +998,35 @@
     URL.revokeObjectURL(url);
     showToast('Downloaded as .srt', 'success');
   }
-
-  // ── Clear ──
   function clearText() {
     if (!transcriptEl.value.trim() && !segments.length) return;
     transcriptEl.value = '';
     segments = [];
+    boundaries = [];
+    totalSeconds = 0;
+    restartCount = 0;
     updateWordCount();
+    updateSessionPill();
     troubleshootBanner.style.display = 'none';
+    clearStorage();
     showToast('Transcript cleared.', 'info');
   }
 
-  // ── Manual edit tracking ──
   transcriptEl.addEventListener('input', updateWordCount);
 
-  // ── Persist language ──
+  // ════════════════════════════════════════
+  // PERSIST LANGUAGE
+  // ════════════════════════════════════════
   langSelect.value = localStorage.getItem('vocalize_lang') || 'en-US';
   langSelect.addEventListener('change', () => {
     localStorage.setItem('vocalize_lang', langSelect.value);
     if (isRecording) showToast('Language will change on next recording session.', 'info');
   });
+
+  // ════════════════════════════════════════
+  // INIT: restore autosaved session
+  // ════════════════════════════════════════
+  loadFromStorage();
 </script>
 </body>
 </html>
