@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vocalize — Free Speech to Text</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Vocalize — Free Speech to Text Transcription</title>
+<meta name="description" content="Vocalize is a completely free, browser-based speech-to-text tool. No sign-ups, no API keys, no limits. Transcribe recordings to text instantly and copy-paste anywhere.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
   :root {
@@ -22,12 +23,12 @@
     --danger-dim: rgba(232,69,69,0.12);
     --success: #3dd68c;
     --success-dim: rgba(61,214,140,0.12);
+    --warn: #f59e0b;
+    --warn-dim: rgba(245,158,11,0.12);
     --radius: 12px;
     --radius-sm: 8px;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     font-family: 'Space Grotesk', sans-serif;
     background: var(--bg);
@@ -35,127 +36,89 @@
     min-height: 100vh;
     overflow-x: hidden;
   }
-
-  /* Ambient background */
   .ambient {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none; overflow: hidden;
   }
   .ambient .blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.3;
+    position: absolute; border-radius: 50%;
+    filter: blur(120px); opacity: 0.3;
     animation: float 20s ease-in-out infinite alternate;
   }
   .ambient .blob:nth-child(1) {
-    width: 500px; height: 500px;
-    background: var(--accent);
-    top: -15%; left: -10%;
-    opacity: 0.08;
+    width: 500px; height: 500px; background: var(--accent);
+    top: -15%; left: -10%; opacity: 0.08;
   }
   .ambient .blob:nth-child(2) {
-    width: 400px; height: 400px;
-    background: #e84545;
-    bottom: -10%; right: -5%;
-    opacity: 0.05;
-    animation-delay: -7s;
+    width: 400px; height: 400px; background: #e84545;
+    bottom: -10%; right: -5%; opacity: 0.05; animation-delay: -7s;
   }
   .ambient .blob:nth-child(3) {
-    width: 300px; height: 300px;
-    background: #3dd68c;
-    top: 50%; left: 50%;
-    opacity: 0.04;
-    animation-delay: -14s;
+    width: 300px; height: 300px; background: #3dd68c;
+    top: 50%; left: 50%; opacity: 0.04; animation-delay: -14s;
   }
   @keyframes float {
     0% { transform: translate(0,0) scale(1); }
     50% { transform: translate(30px,-20px) scale(1.1); }
     100% { transform: translate(-20px,30px) scale(0.95); }
   }
-
-  /* Noise overlay */
   .noise {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.025;
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none; opacity: 0.025;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-size: 128px 128px;
   }
-
   .app {
-    position: relative;
-    z-index: 2;
-    max-width: 900px;
-    margin: 0 auto;
+    position: relative; z-index: 2;
+    max-width: 900px; margin: 0 auto;
     padding: 24px 20px 60px;
   }
 
   /* Header */
   header {
-    display: flex;
-    align-items: center;
+    display: flex; align-items: center;
     justify-content: space-between;
-    padding: 16px 0 32px;
+    padding: 16px 0 28px;
   }
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+  .logo { display: flex; align-items: center; gap: 12px; }
   .logo-icon {
-    width: 42px; height: 42px;
-    background: var(--accent);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    color: var(--bg);
+    width: 42px; height: 42px; background: var(--accent);
+    border-radius: 10px; display: flex; align-items: center;
+    justify-content: center; font-size: 20px; color: var(--bg);
     box-shadow: 0 4px 20px var(--accent-glow);
   }
-  .logo-text {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-  }
+  .logo-text { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
   .logo-text span { color: var(--accent); }
   .badge {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 20px;
-    background: var(--accent-dim);
-    color: var(--accent);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    font-size: 11px; font-weight: 600; padding: 4px 10px;
+    border-radius: 20px; background: var(--accent-dim);
+    color: var(--accent); letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  /* Name & Description block */
+  .hero { margin-bottom: 28px; }
+  .hero h1 {
+    font-size: 32px; font-weight: 800;
+    letter-spacing: -1px; line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p {
+    font-size: 15px; color: var(--fg-muted);
+    line-height: 1.65; max-width: 620px;
   }
 
   /* Status bar */
   .status-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 16px;
-    font-size: 13px;
-    color: var(--fg-muted);
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; background: var(--card);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    margin-bottom: 16px; font-size: 13px; color: var(--fg-muted);
     flex-wrap: wrap;
   }
   .status-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--fg-muted);
-    flex-shrink: 0;
-    transition: background 0.3s;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--fg-muted); flex-shrink: 0; transition: background 0.3s;
   }
   .status-dot.active {
     background: var(--danger);
@@ -166,140 +129,87 @@
     0%,100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.6; transform: scale(1.3); }
   }
-  .status-bar .sep {
-    width: 1px; height: 16px;
-    background: var(--border);
-  }
+  .status-bar .sep { width: 1px; height: 16px; background: var(--border); }
   .status-bar .timer {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--fg);
-    min-width: 60px;
+    font-size: 13px; color: var(--fg); min-width: 60px;
   }
-  .status-bar .word-count {
-    margin-left: auto;
-  }
+  .status-bar .word-count { margin-left: auto; }
 
-  /* Controls row */
+  /* Controls */
   .controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px; flex-wrap: wrap;
   }
-
-  /* Language select */
   .lang-select {
-    padding: 10px 14px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--fg);
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.2s;
-    min-width: 180px;
+    padding: 10px 14px; background: var(--card);
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    color: var(--fg); font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px; cursor: pointer; outline: none;
+    transition: border-color 0.2s; min-width: 180px;
   }
   .lang-select:focus { border-color: var(--accent); }
   .lang-select option { background: var(--card); color: var(--fg); }
 
-  /* Toggle switch */
   .toggle-wrap {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--fg-muted);
-    cursor: pointer;
-    user-select: none;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--fg-muted);
+    cursor: pointer; user-select: none;
   }
   .toggle {
-    width: 38px; height: 20px;
-    background: var(--border);
-    border-radius: 20px;
-    position: relative;
-    transition: background 0.25s;
+    width: 38px; height: 20px; background: var(--border);
+    border-radius: 20px; position: relative; transition: background 0.25s;
   }
   .toggle::after {
-    content: '';
-    position: absolute;
-    width: 16px; height: 16px;
-    background: var(--fg);
-    border-radius: 50%;
-    top: 2px; left: 2px;
-    transition: transform 0.25s;
+    content: ''; position: absolute; width: 16px; height: 16px;
+    background: var(--fg); border-radius: 50%;
+    top: 2px; left: 2px; transition: transform 0.25s;
   }
   .toggle.on { background: var(--accent); }
   .toggle.on::after { transform: translateX(18px); }
 
-  /* Buttons */
   .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 18px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    background: var(--card);
-    color: var(--fg);
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px; border: 1px solid var(--border);
+    border-radius: var(--radius-sm); background: var(--card);
+    color: var(--fg); font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    transition: all 0.2s; white-space: nowrap;
   }
   .btn:hover { background: var(--card-hover); border-color: #3a3b44; }
   .btn:active { transform: scale(0.97); }
   .btn i { font-size: 14px; }
-
   .btn-accent {
-    background: var(--accent);
-    color: var(--bg);
-    border-color: var(--accent);
-    font-weight: 600;
+    background: var(--accent); color: var(--bg);
+    border-color: var(--accent); font-weight: 600;
   }
   .btn-accent:hover {
-    background: #d99a28;
-    border-color: #d99a28;
+    background: #d99a28; border-color: #d99a28;
     box-shadow: 0 4px 20px var(--accent-glow);
   }
-
   .btn-danger {
-    background: var(--danger-dim);
-    color: var(--danger);
+    background: var(--danger-dim); color: var(--danger);
     border-color: rgba(232,69,69,0.25);
   }
-  .btn-danger:hover {
-    background: rgba(232,69,69,0.2);
-    border-color: rgba(232,69,69,0.4);
-  }
-
+  .btn-danger:hover { background: rgba(232,69,69,0.2); border-color: rgba(232,69,69,0.4); }
   .btn-success {
-    background: var(--success-dim);
-    color: var(--success);
+    background: var(--success-dim); color: var(--success);
     border-color: rgba(61,214,140,0.25);
   }
-  .btn-success:hover {
-    background: rgba(61,214,140,0.2);
-    border-color: rgba(61,214,140,0.4);
+  .btn-success:hover { background: rgba(61,214,140,0.2); border-color: rgba(61,214,140,0.4); }
+  .btn-warn {
+    background: var(--warn-dim); color: var(--warn);
+    border-color: rgba(245,158,11,0.25);
   }
+  .btn-warn:hover { background: rgba(245,158,11,0.2); border-color: rgba(245,158,11,0.4); }
 
   .btn-record {
-    width: 100%;
-    padding: 18px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: var(--radius);
-    justify-content: center;
-    transition: all 0.3s;
+    width: 100%; padding: 18px; font-size: 16px;
+    font-weight: 600; border-radius: var(--radius);
+    justify-content: center; transition: all 0.3s;
   }
   .btn-record.recording {
-    background: var(--danger-dim);
-    color: var(--danger);
+    background: var(--danger-dim); color: var(--danger);
     border-color: rgba(232,69,69,0.35);
     animation: record-pulse 2s ease-in-out infinite;
   }
@@ -307,129 +217,144 @@
     0%,100% { box-shadow: 0 0 0 0 rgba(232,69,69,0); }
     50% { box-shadow: 0 0 0 8px rgba(232,69,69,0.1); }
   }
-
   .spacer { flex: 1; }
 
-  /* Transcript area */
+  /* File upload */
+  .file-section { margin-bottom: 16px; }
+  .file-drop {
+    padding: 28px; border: 2px dashed var(--border);
+    border-radius: var(--radius); text-align: center;
+    cursor: pointer; transition: all 0.25s; color: var(--fg-muted);
+  }
+  .file-drop:hover { border-color: var(--accent); background: var(--accent-dim); color: var(--fg); }
+  .file-drop.dragover { border-color: var(--accent); background: var(--accent-dim); }
+  .file-drop i { font-size: 28px; margin-bottom: 8px; display: block; }
+  .file-drop p { font-size: 13px; }
+  .file-drop .sub { font-size: 12px; opacity: 0.6; margin-top: 4px; }
+  .file-drop input { display: none; }
+  .file-player {
+    display: none; align-items: center; gap: 12px;
+    padding: 14px 16px; background: var(--card);
+    border: 1px solid var(--border); border-radius: var(--radius);
+  }
+  .file-player.visible { display: flex; }
+  .file-player audio { flex: 1; height: 36px; }
+  .file-player .file-name {
+    font-size: 12px; color: var(--fg-muted); max-width: 160px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .section-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--fg-muted); margin-bottom: 8px; font-weight: 600;
+  }
+  .divider {
+    display: flex; align-items: center; gap: 16px;
+    margin: 20px 0; color: var(--fg-muted); font-size: 12px;
+  }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Waveform — simulated, no mic conflict */
+  .waveform {
+    display: flex; align-items: center; justify-content: center;
+    gap: 3px; height: 44px; padding: 0 16px;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .waveform.active { opacity: 1; }
+  .waveform .bar {
+    width: 3px; height: 4px; background: var(--accent);
+    border-radius: 3px; transition: height 0.08s ease;
+  }
+
+  /* Transcript */
   .transcript-wrap {
-    position: relative;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    margin-bottom: 16px;
-    transition: border-color 0.3s;
+    position: relative; background: var(--card);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden; margin-bottom: 16px; transition: border-color 0.3s;
   }
   .transcript-wrap:focus-within { border-color: var(--accent); }
   .transcript-wrap.recording { border-color: rgba(232,69,69,0.4); }
-
   .transcript-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 16px;
-    border-bottom: 1px solid var(--border);
-    font-size: 12px;
-    color: var(--fg-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; border-bottom: 1px solid var(--border);
+    font-size: 12px; color: var(--fg-muted);
+    text-transform: uppercase; letter-spacing: 0.8px;
   }
-  .transcript-actions {
-    display: flex;
-    gap: 4px;
-  }
+  .transcript-actions { display: flex; gap: 4px; }
   .transcript-actions button {
-    background: none;
-    border: none;
-    color: var(--fg-muted);
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 13px;
-    transition: all 0.2s;
+    background: none; border: none; color: var(--fg-muted);
+    cursor: pointer; padding: 4px 8px; border-radius: 6px;
+    font-size: 13px; transition: all 0.2s;
   }
-  .transcript-actions button:hover {
-    background: var(--card-hover);
-    color: var(--fg);
-  }
-
+  .transcript-actions button:hover { background: var(--card-hover); color: var(--fg); }
   #transcript {
-    width: 100%;
-    min-height: 320px;
-    max-height: 55vh;
-    padding: 20px;
-    background: transparent;
-    border: none;
-    color: var(--fg);
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px;
-    line-height: 1.75;
-    resize: vertical;
-    outline: none;
-    overflow-y: auto;
+    width: 100%; min-height: 300px; max-height: 55vh;
+    padding: 20px; background: transparent; border: none;
+    color: var(--fg); font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px; line-height: 1.75; resize: vertical;
+    outline: none; overflow-y: auto;
   }
   #transcript::placeholder { color: var(--fg-muted); opacity: 0.6; }
   #transcript::-webkit-scrollbar { width: 6px; }
   #transcript::-webkit-scrollbar-track { background: transparent; }
   #transcript::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-  #transcript::-webkit-scrollbar-thumb:hover { background: #3a3b44; }
 
-  /* Interim text styling */
-  .interim {
-    color: var(--fg-muted);
-    font-style: italic;
+  /* Troubleshoot banner */
+  .troubleshoot-banner {
+    display: none; padding: 16px 18px;
+    background: var(--warn-dim); border: 1px solid rgba(245,158,11,0.3);
+    border-radius: var(--radius-sm); margin-bottom: 16px;
+    font-size: 13px; line-height: 1.6; color: var(--warn);
   }
-
-  /* Waveform visualizer */
-  .waveform {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    height: 40px;
-    padding: 0 16px;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .waveform.active { opacity: 1; }
-  .waveform .bar {
-    width: 3px;
-    height: 6px;
-    background: var(--accent);
-    border-radius: 3px;
-    transition: height 0.1s;
-  }
+  .troubleshoot-banner strong { color: var(--fg); }
+  .troubleshoot-banner ul { margin: 8px 0 0 18px; }
+  .troubleshoot-banner li { margin-bottom: 4px; color: var(--fg-muted); }
 
   /* Bottom actions */
-  .bottom-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+  .bottom-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* Info cards */
+  .info-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px; margin-top: 24px;
   }
+  .info-card {
+    padding: 18px; background: var(--card);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    transition: border-color 0.2s;
+  }
+  .info-card:hover { border-color: #3a3b44; }
+  .info-card h3 {
+    font-size: 14px; font-weight: 600; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .info-card h3 i { color: var(--accent); font-size: 15px; }
+  .info-card p { font-size: 13px; color: var(--fg-muted); line-height: 1.6; }
+  .info-card kbd {
+    display: inline-block; padding: 2px 7px; background: var(--bg2);
+    border: 1px solid var(--border); border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--fg);
+  }
+
+  /* Unsupported banner */
+  .unsupported {
+    padding: 20px; background: var(--danger-dim);
+    border: 1px solid rgba(232,69,69,0.3); border-radius: var(--radius);
+    color: var(--danger); font-size: 14px; line-height: 1.6; margin-bottom: 16px;
+  }
+  .unsupported a { color: var(--fg); text-decoration: underline; }
 
   /* Toast */
   .toast-container {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+    display: flex; flex-direction: column; gap: 8px;
   }
   .toast {
-    padding: 12px 20px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    font-size: 13px;
-    color: var(--fg);
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    padding: 12px 20px; background: var(--card);
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    font-size: 13px; color: var(--fg); display: flex;
+    align-items: center; gap: 10px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-    animation: toast-in 0.35s ease-out;
-    max-width: 320px;
+    animation: toast-in 0.35s ease-out; max-width: 340px;
   }
   .toast.success { border-color: rgba(61,214,140,0.4); }
   .toast.success i { color: var(--success); }
@@ -437,6 +362,8 @@
   .toast.error i { color: var(--danger); }
   .toast.info { border-color: var(--accent-glow); }
   .toast.info i { color: var(--accent); }
+  .toast.warn { border-color: rgba(245,158,11,0.4); }
+  .toast.warn i { color: var(--warn); }
   .toast.out { animation: toast-out 0.3s ease-in forwards; }
   @keyframes toast-in {
     from { opacity: 0; transform: translateY(12px) scale(0.95); }
@@ -446,140 +373,18 @@
     to { opacity: 0; transform: translateY(-8px) scale(0.95); }
   }
 
-  /* Info cards */
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 12px;
-    margin-top: 24px;
-  }
-  .info-card {
-    padding: 18px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    transition: border-color 0.2s;
-  }
-  .info-card:hover { border-color: #3a3b44; }
-  .info-card h3 {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .info-card h3 i { color: var(--accent); font-size: 15px; }
-  .info-card p {
-    font-size: 13px;
-    color: var(--fg-muted);
-    line-height: 1.6;
-  }
-  .info-card kbd {
-    display: inline-block;
-    padding: 2px 7px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--fg);
-  }
-
-  /* Unsupported banner */
-  .unsupported {
-    padding: 20px;
-    background: var(--danger-dim);
-    border: 1px solid rgba(232,69,69,0.3);
-    border-radius: var(--radius);
-    color: var(--danger);
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 16px;
-  }
-  .unsupported a { color: var(--fg); text-decoration: underline; }
-
-  /* Audio file section */
-  .file-section {
-    margin-bottom: 16px;
-  }
-  .file-drop {
-    padding: 28px;
-    border: 2px dashed var(--border);
-    border-radius: var(--radius);
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.25s;
-    color: var(--fg-muted);
-  }
-  .file-drop:hover {
-    border-color: var(--accent);
-    background: var(--accent-dim);
-    color: var(--fg);
-  }
-  .file-drop.dragover {
-    border-color: var(--accent);
-    background: var(--accent-dim);
-  }
-  .file-drop i { font-size: 28px; margin-bottom: 8px; display: block; }
-  .file-drop p { font-size: 13px; }
-  .file-drop .sub { font-size: 12px; opacity: 0.6; margin-top: 4px; }
-  .file-drop input { display: none; }
-
-  .file-player {
-    display: none;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-  }
-  .file-player.visible { display: flex; }
-  .file-player audio { flex: 1; height: 36px; }
-  .file-player .file-name {
-    font-size: 12px;
-    color: var(--fg-muted);
-    max-width: 160px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .section-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--fg-muted);
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-
-  .divider {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin: 20px 0;
-    color: var(--fg-muted);
-    font-size: 12px;
-  }
-  .divider::before, .divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
   @media (max-width: 640px) {
     .app { padding: 16px 14px 40px; }
-    #transcript { min-height: 220px; font-size: 14px; }
+    .hero h1 { font-size: 24px; }
+    #transcript { min-height: 200px; font-size: 14px; }
     .controls { gap: 8px; }
     .btn { padding: 8px 12px; font-size: 12px; }
     .lang-select { min-width: 140px; font-size: 12px; }
     .info-grid { grid-template-columns: 1fr; }
     header { flex-wrap: wrap; gap: 8px; }
+    .toast-container { bottom: 12px; right: 12px; left: 12px; }
+    .toast { max-width: 100%; }
   }
-
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
@@ -606,9 +411,27 @@
     <div class="badge">100% Free</div>
   </header>
 
+  <!-- Name & Description -->
+  <section class="hero">
+    <h1>Speech to Text, <span>Zero Cost</span></h1>
+    <p>Vocalize transcribes your voice or audio recordings into text instantly — right inside your browser. No sign-ups, no API keys, no servers. Fully editable output you can copy-paste anywhere or download as .txt / .srt.</p>
+  </section>
+
   <div id="unsupportedBanner" class="unsupported" style="display:none;">
-    <strong>Browser not supported.</strong> Speech Recognition requires Chrome, Edge, or Brave. 
+    <strong>Browser not supported.</strong> Speech Recognition requires Chrome, Edge, or Brave.
     <a href="https://www.google.com/chrome/" target="_blank">Get Chrome</a>
+  </div>
+
+  <!-- Troubleshoot banner (shown on zero-segment stop) -->
+  <div class="troubleshoot-banner" id="troubleshootBanner">
+    <strong><i class="fa-solid fa-triangle-exclamation"></i> No speech was detected.</strong> This usually means:
+    <ul>
+      <li><strong>Wrong microphone</strong> — check your system/default mic is the one you're speaking into</li>
+      <li><strong>Mic permission</strong> — make sure the browser has microphone access (check the address bar icon)</li>
+      <li><strong>Speak louder/closer</strong> — background noise can drown out quiet speech</li>
+      <li><strong>Wrong language</strong> — make sure the language dropdown matches what you're speaking</li>
+      <li><strong>Mobile workaround</strong> — on phones, try tapping the record button again if it stops early</li>
+    </ul>
   </div>
 
   <!-- Status bar -->
@@ -652,12 +475,10 @@
       <option value="id-ID">Indonesian</option>
       <option value="uk-UA">Ukrainian</option>
     </select>
-
     <label class="toggle-wrap" id="continuousToggle" tabindex="0" role="switch" aria-checked="true">
       <div class="toggle on" id="continuousSwitch"></div>
       Continuous
     </label>
-
     <label class="toggle-wrap" id="timestampToggle" tabindex="0" role="switch" aria-checked="false">
       <div class="toggle" id="timestampSwitch"></div>
       Timestamps
@@ -688,7 +509,7 @@
     <span>Start Recording</span>
   </button>
 
-  <!-- Waveform -->
+  <!-- Simulated waveform (NO getUserMedia — avoids mic conflict) -->
   <div class="waveform" id="waveform"></div>
 
   <!-- Transcript -->
@@ -736,21 +557,20 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-  // --- State ---
+  // ── State ──
   let isRecording = false;
   let recognition = null;
   let continuous = true;
   let showTimestamps = false;
   let timerInterval = null;
   let seconds = 0;
-  let segments = []; // { time, text } for SRT export
+  let segments = [];       // { time, text } for SRT export
   let segmentStart = 0;
-  let audioContext = null;
-  let analyser = null;
-  let micStream = null;
+  let restartCount = 0;    // track auto-restarts
+  const MAX_RESTARTS = 50; // safety cap
   let waveAnimFrame = null;
 
-  // --- DOM refs ---
+  // ── DOM ──
   const recordBtn = document.getElementById('recordBtn');
   const statusDot = document.getElementById('statusDot');
   const statusText = document.getElementById('statusText');
@@ -764,6 +584,7 @@
   const continuousSwitch = document.getElementById('continuousSwitch');
   const timestampToggle = document.getElementById('timestampToggle');
   const timestampSwitch = document.getElementById('timestampSwitch');
+  const troubleshootBanner = document.getElementById('troubleshootBanner');
   const fileDrop = document.getElementById('fileDrop');
   const fileInput = document.getElementById('fileInput');
   const filePlayer = document.getElementById('filePlayer');
@@ -771,7 +592,7 @@
   const fileNameEl = document.getElementById('fileName');
   const removeFileBtn = document.getElementById('removeFile');
 
-  // --- Check support ---
+  // ── Support check ──
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
     document.getElementById('unsupportedBanner').style.display = 'block';
@@ -780,8 +601,8 @@
     recordBtn.style.cursor = 'not-allowed';
   }
 
-  // --- Waveform bars ---
-  const barCount = 40;
+  // ── Simulated waveform bars (NO getUserMedia!) ──
+  const barCount = 45;
   for (let i = 0; i < barCount; i++) {
     const bar = document.createElement('div');
     bar.className = 'bar';
@@ -789,8 +610,36 @@
   }
   const bars = waveformEl.querySelectorAll('.bar');
 
-  // --- Toggles ---
-  function setupToggle(wrap, sw, initial, callback) {
+  // Simulated reactive waveform — no mic stream needed
+  function animateWaveform() {
+    const t = performance.now() / 1000;
+    bars.forEach((bar, i) => {
+      // Create organic-looking wave with multiple sine layers
+      const center = barCount / 2;
+      const dist = Math.abs(i - center) / center; // 0 at center, 1 at edges
+      const base = Math.sin(t * 3.5 + i * 0.35) * 0.5 + 0.5;
+      const wave2 = Math.sin(t * 5.2 + i * 0.6) * 0.3 + 0.5;
+      const wave3 = Math.sin(t * 8.1 + i * 1.1) * 0.15 + 0.5;
+      const combined = base * 0.5 + wave2 * 0.3 + wave3 * 0.2;
+      // Taper at edges, boost at center
+      const shape = 1 - dist * 0.6;
+      const h = Math.max(3, combined * shape * 34 + Math.random() * 3);
+      bar.style.height = h + 'px';
+    });
+    waveAnimFrame = requestAnimationFrame(animateWaveform);
+  }
+  function startWaveform() {
+    waveformEl.classList.add('active');
+    animateWaveform();
+  }
+  function stopWaveform() {
+    waveformEl.classList.remove('active');
+    cancelAnimationFrame(waveAnimFrame);
+    bars.forEach(bar => bar.style.height = '4px');
+  }
+
+  // ── Toggles ──
+  function setupToggle(wrap, sw, callback) {
     wrap.addEventListener('click', () => {
       const isOn = sw.classList.toggle('on');
       wrap.setAttribute('aria-checked', isOn);
@@ -800,58 +649,48 @@
       if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); wrap.click(); }
     });
   }
-  setupToggle(continuousToggle, continuousSwitch, true, (v) => { continuous = v; });
-  setupToggle(timestampToggle, timestampSwitch, false, (v) => { showTimestamps = v; rebuildTranscriptDisplay(); });
+  setupToggle(continuousToggle, continuousSwitch, (v) => { continuous = v; });
+  setupToggle(timestampToggle, timestampSwitch, (v) => { showTimestamps = v; rebuildDisplay(); });
 
-  // --- File upload ---
+  // ── File upload ──
   fileDrop.addEventListener('click', () => fileInput.click());
   fileDrop.addEventListener('dragover', (e) => { e.preventDefault(); fileDrop.classList.add('dragover'); });
   fileDrop.addEventListener('dragleave', () => fileDrop.classList.remove('dragover'));
   fileDrop.addEventListener('drop', (e) => {
-    e.preventDefault();
-    fileDrop.classList.remove('dragover');
+    e.preventDefault(); fileDrop.classList.remove('dragover');
     if (e.dataTransfer.files.length) loadAudioFile(e.dataTransfer.files[0]);
   });
   fileInput.addEventListener('change', () => {
     if (fileInput.files.length) loadAudioFile(fileInput.files[0]);
   });
   removeFileBtn.addEventListener('click', () => {
-    audioPlayer.pause();
-    audioPlayer.src = '';
+    audioPlayer.pause(); audioPlayer.src = '';
     filePlayer.classList.remove('visible');
     fileDrop.style.display = '';
   });
-
   function loadAudioFile(file) {
-    if (!file.type.startsWith('audio/')) {
-      showToast('Please select an audio file.', 'error');
-      return;
-    }
+    if (!file.type.startsWith('audio/')) { showToast('Please select an audio file.', 'error'); return; }
     audioPlayer.src = URL.createObjectURL(file);
     fileNameEl.textContent = file.name;
     fileDrop.style.display = 'none';
     filePlayer.classList.add('visible');
-    showToast('Audio loaded. Hit record to transcribe while it plays.', 'info');
+    showToast('Audio loaded. Hit record, then play the audio.', 'info');
   }
 
-  // --- Toast ---
+  // ── Toast ──
   function showToast(msg, type = 'info') {
     const container = document.getElementById('toastContainer');
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
+    const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info', warn: 'fa-triangle-exclamation' };
     toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info}"></i><span>${msg}</span>`;
     container.appendChild(toast);
-    setTimeout(() => {
-      toast.classList.add('out');
-      setTimeout(() => toast.remove(), 300);
-    }, 3000);
+    setTimeout(() => { toast.classList.add('out'); setTimeout(() => toast.remove(), 300); }, 3500);
   }
 
-  // --- Timer ---
+  // ── Timer ──
   function startTimer() {
-    seconds = 0;
-    updateTimerDisplay();
+    seconds = 0; updateTimerDisplay();
     timerInterval = setInterval(() => { seconds++; updateTimerDisplay(); }, 1000);
   }
   function stopTimer() { clearInterval(timerInterval); }
@@ -861,44 +700,14 @@
     timerEl.textContent = `${m}:${s}`;
   }
 
-  // --- Word count ---
+  // ── Word count ──
   function updateWordCount() {
     const text = transcriptEl.value.trim();
     const count = text ? text.split(/\s+/).length : 0;
     wordCountEl.textContent = `${count} word${count !== 1 ? 's' : ''}`;
   }
 
-  // --- Waveform animation ---
-  function startWaveform(stream) {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioContext.createAnalyser();
-    analyser.fftSize = 128;
-    micStream = stream;
-    const source = audioContext.createMediaStreamSource(stream);
-    source.connect(analyser);
-    waveformEl.classList.add('active');
-    const dataArray = new Uint8Array(analyser.frequencyBinCount);
-    function draw() {
-      analyser.getByteFrequencyData(dataArray);
-      const step = Math.floor(dataArray.length / barCount);
-      bars.forEach((bar, i) => {
-        const val = dataArray[i * step] || 0;
-        const h = Math.max(4, (val / 255) * 36);
-        bar.style.height = h + 'px';
-      });
-      waveAnimFrame = requestAnimationFrame(draw);
-    }
-    draw();
-  }
-  function stopWaveform() {
-    waveformEl.classList.remove('active');
-    cancelAnimationFrame(waveAnimFrame);
-    bars.forEach(bar => bar.style.height = '4px');
-    if (micStream) { micStream.getTracks().forEach(t => t.stop()); micStream = null; }
-    if (audioContext) { audioContext.close(); audioContext = null; }
-  }
-
-  // --- Timestamp helpers ---
+  // ── Timestamp helpers ──
   function formatTime(sec) {
     const h = String(Math.floor(sec / 3600)).padStart(2, '0');
     const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
@@ -912,10 +721,8 @@
     const ms = String(Math.round((sec % 1) * 1000)).padStart(3, '0');
     return `${h}:${m}:${s},${ms}`;
   }
-
-  function rebuildTranscriptDisplay() {
+  function rebuildDisplay() {
     if (!showTimestamps) {
-      // Show plain text
       transcriptEl.value = segments.map(s => s.text).join(' ').trim();
     } else {
       transcriptEl.value = segments.map(s => `[${formatTime(s.time)}] ${s.text}`).join('\n').trim();
@@ -923,18 +730,20 @@
     updateWordCount();
   }
 
-  // --- Recognition ---
+  // ── Core: create recognition ──
   function createRecognition() {
     if (!SpeechRecognition) return null;
     const rec = new SpeechRecognition();
     rec.lang = langSelect.value;
-    rec.continuous = continuous;
+    rec.continuous = true;   // ALWAYS set continuous=true internally for stability
     rec.interimResults = true;
     rec.maxAlternatives = 1;
 
     segmentStart = seconds;
+    let gotAnyResult = false;
 
     rec.onresult = (event) => {
+      gotAnyResult = true;
       let interim = '';
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const result = event.results[i];
@@ -948,7 +757,6 @@
           interim += result[0].transcript;
         }
       }
-      // Rebuild display
       if (!showTimestamps) {
         const base = segments.map(s => s.text).join(' ');
         transcriptEl.value = interim ? base + ' ' + interim : base;
@@ -957,19 +765,25 @@
         transcriptEl.value = interim ? base + '\n' + `[${formatTime(seconds)}] ${interim}...` : base;
       }
       updateWordCount();
-      // Auto scroll
       transcriptEl.scrollTop = transcriptEl.scrollHeight;
+      // Hide troubleshoot banner once we get results
+      troubleshootBanner.style.display = 'none';
     };
 
     rec.onerror = (event) => {
-      if (event.error === 'no-speech') return; // Ignore silence
       if (event.error === 'aborted') return;
-      console.error('Speech error:', event.error);
+      if (event.error === 'no-speech') {
+        // On mobile, "no-speech" fires frequently — just let onend restart
+        return;
+      }
       if (event.error === 'not-allowed') {
-        showToast('Microphone access denied. Please allow mic permission.', 'error');
+        showToast('Microphone access denied. Allow mic permission in browser settings.', 'error');
         stopRecording();
       } else if (event.error === 'network') {
-        showToast('Network error — recognition requires internet for first use.', 'error');
+        showToast('Network error — speech recognition needs internet on first use.', 'error');
+        stopRecording();
+      } else if (event.error === 'audio-capture') {
+        showToast('No microphone found. Connect a mic and try again.', 'error');
         stopRecording();
       } else {
         showToast(`Recognition error: ${event.error}`, 'error');
@@ -977,54 +791,78 @@
     };
 
     rec.onend = () => {
-      // If still supposed to be recording and continuous, restart
-      if (isRecording && continuous) {
-        try { rec.start(); } catch(e) { /* already started */ }
-      } else if (isRecording) {
+      if (!isRecording) return;
+
+      // If user toggled continuous OFF and we got results, stop
+      if (!continuous && gotAnyResult) {
+        stopRecording();
+        return;
+      }
+
+      // Auto-restart (with safety cap)
+      if (restartCount < MAX_RESTARTS) {
+        restartCount++;
+        // Small delay before restart to avoid browser throttling
+        setTimeout(() => {
+          if (!isRecording) return;
+          try {
+            rec.start();
+          } catch(e) {
+            // If start fails (already started), recreate
+            const newRec = createRecognition();
+            if (newRec) {
+              recognition = newRec;
+              try { newRec.start(); } catch(e2) {}
+            }
+          }
+        }, 100);
+      } else {
         stopRecording();
       }
     };
 
+    // Store ref so we can check gotAnyResult externally
+    rec._gotAnyResult = () => gotAnyResult;
     return rec;
   }
 
-  // --- Start / Stop ---
-  async function startRecording() {
+  // ── Start / Stop ──
+  function startRecording() {
     if (!SpeechRecognition) return;
+
+    troubleshootBanner.style.display = 'none';
+    restartCount = 0;
+
+    recognition = createRecognition();
+    if (!recognition) return;
+
     try {
-      // Get mic stream for waveform
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      startWaveform(stream);
-
-      recognition = createRecognition();
-      if (!recognition) return;
-
       recognition.start();
-      isRecording = true;
-
-      recordBtn.classList.add('recording');
-      recordBtn.innerHTML = '<i class="fa-solid fa-stop"></i><span>Stop Recording</span>';
-      statusDot.classList.add('active');
-      statusText.textContent = 'Listening...';
-      transcriptWrap.classList.add('recording');
-      startTimer();
-      showToast('Recording started. Speak into your microphone.', 'success');
-    } catch (err) {
-      console.error(err);
-      if (err.name === 'NotAllowedError') {
-        showToast('Microphone permission denied. Check browser settings.', 'error');
-      } else {
-        showToast('Could not access microphone.', 'error');
-      }
+    } catch(e) {
+      showToast('Failed to start recognition. Try refreshing the page.', 'error');
+      return;
     }
+
+    isRecording = true;
+    startWaveform();
+
+    recordBtn.classList.add('recording');
+    recordBtn.innerHTML = '<i class="fa-solid fa-stop"></i><span>Stop Recording</span>';
+    statusDot.classList.add('active');
+    statusText.textContent = 'Listening...';
+    transcriptWrap.classList.add('recording');
+    startTimer();
+    showToast('Recording started — speak now.', 'success');
   }
 
   function stopRecording() {
     isRecording = false;
+
     if (recognition) {
       try { recognition.stop(); } catch(e) {}
       recognition = null;
     }
+
     stopWaveform();
     stopTimer();
 
@@ -1034,9 +872,15 @@
     statusText.textContent = 'Stopped';
     transcriptWrap.classList.remove('recording');
 
-    // Finalize any remaining interim by rebuilding
-    rebuildTranscriptDisplay();
-    showToast(`Transcription complete — ${segments.length} segment${segments.length !== 1 ? 's' : ''} captured.`, 'success');
+    rebuildDisplay();
+
+    if (segments.length === 0) {
+      troubleshootBanner.style.display = 'block';
+      showToast('No speech detected. See troubleshooting tips below.', 'warn');
+    } else {
+      troubleshootBanner.style.display = 'none';
+      showToast(`Done — ${segments.length} segment${segments.length !== 1 ? 's' : ''}, ${wordCountEl.textContent}.`, 'success');
+    }
   }
 
   recordBtn.addEventListener('click', () => {
@@ -1044,49 +888,43 @@
     else startRecording();
   });
 
-  // --- Keyboard shortcut ---
+  // ── Keyboard shortcut ──
   document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.shiftKey && e.key === 'M') {
+    if (e.ctrlKey && e.shiftKey && (e.key === 'M' || e.key === 'm')) {
       e.preventDefault();
       if (isRecording) stopRecording();
       else startRecording();
     }
   });
 
-  // --- Copy ---
+  // ── Copy ──
   function copyText() {
     const text = transcriptEl.value;
-    if (!text.trim()) {
-      showToast('Nothing to copy yet.', 'info');
-      return;
-    }
+    if (!text.trim()) { showToast('Nothing to copy yet.', 'info'); return; }
     navigator.clipboard.writeText(text).then(() => {
       showToast('Copied to clipboard!', 'success');
     }).catch(() => {
-      // Fallback
       transcriptEl.select();
       document.execCommand('copy');
       showToast('Copied to clipboard!', 'success');
     });
   }
 
-  // --- Download .txt ---
+  // ── Download .txt ──
   function downloadTxt() {
     const text = transcriptEl.value;
     if (!text.trim()) { showToast('Nothing to download.', 'info'); return; }
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = `transcript_${Date.now()}.txt`;
-    a.click();
+    a.href = url; a.download = `transcript_${Date.now()}.txt`; a.click();
     URL.revokeObjectURL(url);
     showToast('Downloaded as .txt', 'success');
   }
 
-  // --- Download .srt ---
+  // ── Download .srt ──
   function downloadSrt() {
-    if (!segments.length) { showToast('No segments to export. Enable timestamps for SRT.', 'info'); return; }
+    if (!segments.length) { showToast('No segments to export.', 'info'); return; }
     let srt = '';
     segments.forEach((seg, i) => {
       const start = formatSrtTime(seg.time);
@@ -1096,38 +934,30 @@
     const blob = new Blob([srt], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = `transcript_${Date.now()}.srt`;
-    a.click();
+    a.href = url; a.download = `transcript_${Date.now()}.srt`; a.click();
     URL.revokeObjectURL(url);
     showToast('Downloaded as .srt', 'success');
   }
 
-  // --- Clear ---
+  // ── Clear ──
   function clearText() {
     if (!transcriptEl.value.trim() && !segments.length) return;
     transcriptEl.value = '';
     segments = [];
     updateWordCount();
+    troubleshootBanner.style.display = 'none';
     showToast('Transcript cleared.', 'info');
   }
 
-  // --- Manual word count on edit ---
-  transcriptEl.addEventListener('input', () => {
-    // If user edits manually, we can't reliably track segments anymore
-    // Just update word count
-    updateWordCount();
-  });
+  // ── Manual edit tracking ──
+  transcriptEl.addEventListener('input', updateWordCount);
 
-  // --- Save/restore language preference ---
+  // ── Persist language ──
   langSelect.value = localStorage.getItem('vocalize_lang') || 'en-US';
   langSelect.addEventListener('change', () => {
     localStorage.setItem('vocalize_lang', langSelect.value);
-    if (isRecording) {
-      showToast('Language will change on next recording session.', 'info');
-    }
+    if (isRecording) showToast('Language will change on next recording session.', 'info');
   });
 </script>
-
 </body>
 </html>
