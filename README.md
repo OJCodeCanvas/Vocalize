@@ -1,7 +1,6 @@
 # Vocalize
 Free, browser-based speech-to-text transcription. No sign-ups, no API keys, no limits.
 
-```markdown
 # Vocalize — Free Speech to Text
 
 A completely free, browser-based transcription tool. No API keys, no sign-ups, no limits. Open the page, hit record, speak — text appears instantly.
